@@ -9,7 +9,8 @@ from toolbox_02450 import clusterplot
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 
 # Perform hierarchical/agglomerative clustering on data matrix
-Method = 'average'
+## single, complete, average, weighted, centroid, median, ward
+Method = 'ward'
 Metric = 'euclidean'
 X = X_standard
 y = X[:,9] #make y the chd column
@@ -57,6 +58,7 @@ for index, item in enumerate(a):
         falsepos += 1
     else:
         print("something weird", index, item)
+print("Method:",Method)
 print("truepos:", truepos)
 print("trueneg:", trueneg)
 print("falsepos:", falsepos)
