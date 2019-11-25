@@ -1,0 +1,41 @@
+Method: single
+truepos: 0
+trueneg: 301
+falsepos: 1
+falseneg: 160
+Percent right: 65.15151515151516
+
+Method: complete
+truepos: 65
+trueneg: 150
+falsepos: 152
+falseneg: 95
+Percent right: 46.53679653679654
+
+Method: average
+truepos: 0
+trueneg: 301
+falsepos: 1
+falseneg: 160
+Percent right: 65.15151515151516
+
+Method: weighted
+truepos: 1
+trueneg: 302
+falsepos: 0
+falseneg: 159
+Percent right: 65.5844155844156
+
+Method: centroid
+truepos: 1
+trueneg: 302
+falsepos: 0
+falseneg: 159
+Percent right: 65.5844155844156
+
+Method: median
+truepos: 1
+trueneg: 302
+falsepos: 0
+falseneg: 159
+Percent right: 65.5844155844156
