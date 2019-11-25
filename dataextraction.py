@@ -12,6 +12,9 @@ df.famhist = df.famhist.replace('Absent',0)
 raw_data = df.values
 
 cols = range(1, 11) # Getting rid of the first column since it's column numbers
+
+# 0: sbp, 1: tobacco, 2: ldl, 3: adiposity, 4: famhist, 5: typea
+# 6: obesity, 7: alcohol, 8: age, 9: chd
 X = raw_data[:, cols]
 
 N,M = X.shape
