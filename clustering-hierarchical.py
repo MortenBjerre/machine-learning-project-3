@@ -11,7 +11,7 @@ Metric = 'euclidean'
 Z = linkage(X, method=Method, metric=Metric)
 
 # Compute and display clusters by thresholding the dendrogram
-Maxclust = 4
+Maxclust = 2
 cls = fcluster(Z, criterion='maxclust', t=Maxclust)
 plt.figure(1)
 clusterplot(X, cls.reshape(cls.shape[0],1), y=X[:,9])
