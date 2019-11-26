@@ -1,9 +1,8 @@
 from dataextraction import X, X_standard, attributeNames
+print(X.shape)
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-from pcavariance import (X, N, M, Y, U, S, V)
-
+from pcavariance import (N, M, Y, U, S, V)
 import matplotlib.pyplot as plt
 from toolbox_02450 import clusterplot
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
