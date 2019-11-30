@@ -1,5 +1,5 @@
 # exercise 11.1.5
-from matplotlib.pyplot import figure, plot, legend, xlabel, show
+from matplotlib.pyplot import figure, plot, legend, xlabel, show,savefig,ylabel
 import numpy as np
 from scipy.io import loadmat
 from sklearn.mixture import GaussianMixture
@@ -59,12 +59,15 @@ for t,K in enumerate(KRange):
 
 # Plot results
 
-figure(1); 
-plot(KRange, BIC,'-*b')
-plot(KRange, AIC,'-xr')
-plot(KRange, 2*CVE,'-ok')
-legend(['BIC', 'AIC', 'Crossvalidation'])
+figure(1,figsize=(10,6)); 
+plot(KRange, BIC,'-*b',label="BIC")
+plot(KRange, AIC,'-xr',label="AIC")
+plot(KRange, 2*CVE,'-ok',label="Crossvalidation")
+plt.scatter(np.argmin(CVE)+1, 2*CVE[np.argmin(CVE)], s=150, facecolors='none', edgecolors='r',label = "Est. no. of components")
+legend()
+ylabel("Score")
 xlabel('K')
+#savefig("gmm-cv-figure.png")
 show()
 #%%
 
@@ -80,13 +83,29 @@ a = clustering.reshape(clustering.shape[0],1)
 plt.figure(1,figsize=(10,7))
 for i in range(8):
     plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],label="cluster " + str(i))
-legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    
+legend(loc='center left', bbox_to_anchor=(0.97, 0.5)) #cuts of legend if totally out of plot
 plt.title("GMM clustering")
 plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.savefig("GMM-cluster-plot.png")
+plt.tight_layout()
 plt.show()    
     
+colors = ['b','g','r','c','m','y','k','w']
+plt.figure(2,figsize=(10,5))
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.title("GMM plot with cluster centers")
+for i in range(8):
+    plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],zorder=1)
+    plt.scatter(gmm.means_[i,0],gmm.means_[i,1], s=150, facecolors=colors[i], edgecolors='k',label = "Cluster center "+str(i),zorder=2)
+    
+for i in range(8):
+    pass
+
+plt.legend()
+plt.show()
 #3d
 def threedplot():
     f = plt.figure()
@@ -104,3 +123,4 @@ def threedplot():
     ax.set_zlabel('PCA3')
     plt.tight_layout()
     plt.show()
+    
