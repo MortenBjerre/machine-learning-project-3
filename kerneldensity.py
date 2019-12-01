@@ -1,7 +1,7 @@
 # exercise 11.4.1
 import numpy as np
-from matplotlib.pyplot import (figure, imshow, bar, title, xticks, yticks, cm,
-                               subplot, show)
+from matplotlib.pyplot import (figure, bar, title, xticks, yticks, cm,
+                               subplot, show, ylabel)
 from scipy.io import loadmat
 from toolbox_02450 import gausKernelDensity
 from sklearn.neighbors import NearestNeighbors
@@ -12,6 +12,7 @@ X = X_standard
 # y = X[:,9]
 # X = X[:,:9]
 N, M = np.shape(X)
+n = 60
 
 ### Gausian Kernel density estimator
 # cross-validate kernel width by leave-one-out-cross-validation
@@ -35,22 +36,19 @@ density, log_density = gausKernelDensity(X,width)
 
 # Sort the densities
 i = (density.argsort(axis=0)).ravel()
+outliersgkd = i[:28]
+print("outliers gkd:", outliersgkd)
+
 density = density[i].reshape(-1,)
 
 # Plot density estimate of outlier score
 figure(1)
-bar(range(20),density[:20])
-title('Density estimate')
-
-# Plot possible outliers
-# figure(2)
-# for k in range(1,21):
-#     subplot(4,5,k)
-#     imshow(np.reshape(X[i[k],:], (16,16)).T, cmap=cm.binary)
-#     xticks([]); yticks([])
-#     if k==3: title('Gaussian Kernel Density: Possible outliers')
-
-
+b1 = bar(range(n),density[:n])
+for index in range(28):
+   b1[index].set_color('r')
+ylabel("Outlier score")
+title('Kernel density estimate')
+show()
 
 ### K-neighbors density estimator
 # Neighbor to use:
@@ -64,26 +62,18 @@ density = 1./(D.sum(axis=1)/K)
 
 # Sort the scores
 i = density.argsort()
-print(density.shape)
-figure(2)
+
+outliersknn = i[:8]
+print("outliers knn:", outliersknn)
 
 density = density[i]
-bar(range(20),density[:20])
+figure(2)
+b2 = bar(range(n),density[:n])
+for index in range(8):
+   b2[index].set_color('r')
+ylabel("Outlier score")
 title('KNN density: Outlier score')
 show()
-
-# Plot k-neighbor estimate of outlier score (distances)
-# figure(3)
-# bar(range(20),density[:20])
-# title('KNN density: Outlier score')
-# # Plot possible outliers
-# figure(4)
-# for k in range(1,21):
-#     subplot(4,5,k)
-#     imshow(np.reshape(X[i[k],:], (16,16)).T, cmap=cm.binary)
-#     xticks([]); yticks([])
-#     if k==3: title('KNN density: Possible outliers')
-
 
 
 ### K-nearest neigbor average relative density
@@ -98,19 +88,17 @@ avg_rel_density = density/(density[i[:,1:]].sum(axis=1)/K)
 i_avg_rel = avg_rel_density.argsort()
 avg_rel_density = avg_rel_density[i_avg_rel]
 
-# Plot k-neighbor estimate of outlier score (distances)
-# figure(5)
-# bar(range(20),avg_rel_density[:20])
-# title('KNN average relative density: Outlier score')
-# # Plot possible outliers
-# figure(6)
-# for k in range(1,21):
-#     subplot(4,5,k)
-#     imshow(np.reshape(X[i_avg_rel[k],:], (16,16)).T, cmap=cm.binary)
-#     xticks([]); yticks([])
-#     if k==3: title('KNN average relative density: Possible outliers')
+outliersard = i_avg_rel[:6]
+print("outliers ard:", outliersard)
 
 
+figure(3)
+b3 = bar(range(n),avg_rel_density[:n])
+for index in range(6):
+   b3[index].set_color('r')
+title('KNN average relative density: Outlier score')
+ylabel("Outlier score")
+show()
 
 ### Distance to 5'th nearest neighbor outlier score
 K = 5
@@ -125,27 +113,22 @@ score = D[:,K-1]
 i = score.argsort()
 score = score[i[::-1]]
 
-# Plot k-neighbor estimate of outlier score (distances)
-# figure(7)
-# bar(range(20),score[:20])
-# title('5th neighbor distance: Outlier score')
-# # Plot possible outliers
-# figure(8)
-# for k in range(1,21):
-#     subplot(4,5,k)
-#     imshow(np.reshape(X[i[k],:], (16,16)).T, cmap=cm.binary); 
-#     xticks([]); yticks([])
-#     if k==3: title('5th neighbor distance: Possible outliers')
+outliers5 = i[:8]
+print("outliers 5thnn:", outliers5)
 
 
-
-# Plot random digits (the first 20 in the data set), for comparison
-# figure(9)
-# for k in range(1,21):
-#     subplot(4,5,k);
-#     imshow(np.reshape(X[k,:], (16,16)).T, cmap=cm.binary); 
-#     xticks([]); yticks([])
-#     if k==3: title('Random digits from data set')    
+figure(4)
+b4=bar(range(n),score[:n])
+for index in range(8):
+   b4[index].set_color('r')
+title('5th neighbor distance: Outlier score')
+ylabel("Outlier score")
 show()
 
-# print('Ran Exercise 11.4.1')
+a = set(outliersgkd)
+b = set(outliersknn)
+c = set(outliersard)
+d = set(outliers5)
+
+print(a & b & c)
+
