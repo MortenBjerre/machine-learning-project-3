@@ -50,8 +50,8 @@ z1 = np.array(z1)
 
 link = linkage(X, method=Method, metric=Metric)
 
-# Compute clusters by thresholding the dendrogram
-Maxclust = 1
+# # Compute clusters by thresholding the dendrogram
+Maxclust = 2
 cls = fcluster(link, criterion='maxclust', t=Maxclust)
 
 # Find out accuracy of clusters
@@ -135,52 +135,54 @@ def testAll():
                 print("\n--------------------------------------------")
             except:
                 pass
-            
+
+# testAll()
+
 #%% new y is famhist to see if we can improve result
-X = X_standard
-y = X[:,4]
-X = X[:,[0,1,2,3,5,6,7,8,9]]
+# X = X_standard
+# y = X[:,4]
+# X = X[:,[0,1,2,3,5,6,7,8,9]]
 
-link = linkage(X, method="ward", metric="euclidean") #metric=hamming
+# link = linkage(X, method="ward", metric="euclidean") #metric=hamming
 
-# Compute clusters by thresholding the dendrogram
-Maxclust = 2
-cls = fcluster(link, criterion='maxclust', t=Maxclust)
+# # Compute clusters by thresholding the dendrogram
+# Maxclust = 2
+# cls = fcluster(link, criterion='maxclust', t=Maxclust)
 
-# Find out accuracy of clusters
-a = cls.reshape(cls.shape[0],1)
-truepos = 0
-trueneg = 0
-falsepos = 0
-falseneg = 0
-for index, item in enumerate(a):
-    if item-1 == 0 and y[index] == 0:
-        trueneg += 1
-    elif item-1 == 1 and y[index] == 1:
-        truepos += 1
-    elif item-1 == 0 and y[index] == 1:
-        falseneg += 1
-    elif item-1 == 1 and y[index] == 0:
-        falsepos += 1
-    else:
-        print("something weird", index, item, y[index])
-print("Method:",Method)
-print("truepos:", truepos)
-print("trueneg:", trueneg)
-print("falsepos:", falsepos)
-print("falseneg:", falseneg)
-print("Percent right:", (truepos + trueneg)/len(a) * 100)
+# # Find out accuracy of clusters
+# a = cls.reshape(cls.shape[0],1)
+# truepos = 0
+# trueneg = 0
+# falsepos = 0
+# falseneg = 0
+# for index, item in enumerate(a):
+#     if item-1 == 0 and y[index] == 0:
+#         trueneg += 1
+#     elif item-1 == 1 and y[index] == 1:
+#         truepos += 1
+#     elif item-1 == 0 and y[index] == 1:
+#         falseneg += 1
+#     elif item-1 == 1 and y[index] == 0:
+#         falsepos += 1
+#     else:
+#         print("something weird", index, item, y[index])
+# print("Method:",Method)
+# print("truepos:", truepos)
+# print("trueneg:", trueneg)
+# print("falsepos:", falsepos)
+# print("falseneg:", falseneg)
+# print("Percent right:", (truepos + trueneg)/len(a) * 100)
 
-# Plot clusters
-plt.figure(1, figsize=(10,8))
-clusterplot(Z[:,0:2], a, y=y)
-plt.xlabel("PC1")
-plt.ylabel("PC2")
-plt.title("Hierarchical clustering for predicting famhist")
+# # Plot clusters
+# plt.figure(1, figsize=(10,8))
+# clusterplot(Z[:,0:2], a, y=y)
+# plt.xlabel("PC1")
+# plt.ylabel("PC2")
+# plt.title("Hierarchical clustering for predicting famhist")
 
-# Display dendrogram
-max_display_levels=6
-plt.figure(2,figsize=(11,4))
-dendrogram(link, truncate_mode='level', p=max_display_levels)
+# # Display dendrogram
+# max_display_levels=6
+# plt.figure(2,figsize=(11,4))
+# dendrogram(link, truncate_mode='level', p=max_display_levels)
 
-plt.show()
+# plt.show()
