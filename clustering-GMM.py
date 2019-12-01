@@ -100,7 +100,7 @@ plt.ylabel("PC2")
 plt.title("GMM plot with cluster centers")
 for i in range(8):
     plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],color=colors[i])
-    plt.scatter(gmm.means_[i,0],gmm.means_[i,1], s=200, facecolors=colors[i], edgecolors='k',label = "Cluster center "+str(i),zorder=2)
+    plt.scatter(gmm.means_[:,0][i],gmm.means_[:,1][i], s=200, facecolors=colors[i], edgecolors='k',label = "Cluster center "+str(i),zorder=2)
     
 for i in range(8):
     pass
