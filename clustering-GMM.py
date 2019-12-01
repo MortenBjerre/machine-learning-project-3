@@ -7,6 +7,8 @@ from sklearn import model_selection
 from dataextraction import X, X_standard, attributeNames
 from clusteringhierarchical import Z, z0,z1
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 #from clustering-hierarchical import Z, z0, z1
 
 # Load Matlab data file and extract variables of interest
@@ -109,16 +111,17 @@ plt.legend()
 plt.show()
 #3d
 def threedplot():
-    f = plt.figure()
-    ax = f.add_subplot(111, projection='3d')
+    fig = plt.figure(3)
+    ax = fig.gca(projection='3d')
     for i in range(8):
         #ax.scatter(z0[:,0], z0[:,1], z0[:,2], c='g', label = "chd=0")
         #ax.scatter(z1[:,0], z1[:,1], z1[:,2], c='r', label = "chd=1")
-        ax.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],Z[clustering == i][:,2], label="cluster " + str(i))
+        a = ax.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],Z[clustering == i][:,2], label="cluster " + str(i))
     plt.legend()
     plt.xlabel('PCA1')
     plt.ylabel('PCA2')
-    ax.set_zlabel('PCA3')
+    # a.set_zlabel('PCA3')
     plt.tight_layout()
     plt.show()
     
+threedplot()

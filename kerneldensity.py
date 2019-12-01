@@ -1,7 +1,7 @@
 # exercise 11.4.1
 import numpy as np
 from matplotlib.pyplot import (figure, bar, title, xticks, yticks, cm,
-                               subplot, show, ylabel)
+                               subplot, show, ylabel, scatter)
 from scipy.io import loadmat
 from toolbox_02450 import gausKernelDensity
 from sklearn.neighbors import NearestNeighbors
@@ -42,13 +42,12 @@ print("outliers gkd:", outliersgkd)
 density = density[i].reshape(-1,)
 
 # Plot density estimate of outlier score
-figure(1)
+subplot(2,2,1)
 b1 = bar(range(n),density[:n])
 for index in range(28):
    b1[index].set_color('r')
 ylabel("Outlier score")
 title('Kernel density estimate')
-show()
 
 ### K-neighbors density estimator
 # Neighbor to use:
@@ -67,13 +66,12 @@ outliersknn = i[:8]
 print("outliers knn:", outliersknn)
 
 density = density[i]
-figure(2)
+subplot(2,2,2)
 b2 = bar(range(n),density[:n])
 for index in range(8):
    b2[index].set_color('r')
 ylabel("Outlier score")
 title('KNN density: Outlier score')
-show()
 
 
 ### K-nearest neigbor average relative density
@@ -92,13 +90,12 @@ outliersard = i_avg_rel[:6]
 print("outliers ard:", outliersard)
 
 
-figure(3)
+subplot(2,2,3)
 b3 = bar(range(n),avg_rel_density[:n])
 for index in range(6):
    b3[index].set_color('r')
 title('KNN average relative density: Outlier score')
 ylabel("Outlier score")
-show()
 
 ### Distance to 5'th nearest neighbor outlier score
 K = 5
@@ -117,7 +114,7 @@ outliers5 = i[:8]
 print("outliers 5thnn:", outliers5)
 
 
-figure(4)
+subplot(2,2,4)
 b4=bar(range(n),score[:n])
 for index in range(8):
    b4[index].set_color('r')
@@ -131,4 +128,40 @@ c = set(outliersard)
 d = set(outliers5)
 
 print(a & b & c)
+print('ad', a & d)
+print('cd', c & d)
+print('bd', b & d)
 
+
+# PCA stuff
+from pcavariance import (N, M, Y, U, S, V)
+Vt = V.T
+Z = Y @ V
+z0 = []
+z1 = []
+counter0 = 0
+counter1 = 0
+for r in range(len(Z)):
+    if Y[r][9] == 1:
+        z1 += [0]
+        z1[counter1] = Z[r]
+        counter1 += 1
+    else:
+        z0 += [0]
+        z0[counter0] = Z[r]
+        counter0 += 1
+z0 = np.array(z0)
+z1 = np.array(z1)
+
+densities = [outliersgkd, outliersknn, outliersard, outliers5]
+titles = ['gkd', 'knn', 'ard', '5th nearest neighbor']
+for i, d in enumerate(densities):
+   print(i)
+   subplot(2, 2, i+1)
+   title(titles[i])
+   for index in range(len(Z)):
+      if index in d:
+         scatter(Z[index][0], Z[index][1], c='r', s=8)
+      else:
+         scatter(Z[index][0], Z[index][1], c='g', s=8)
+show()
