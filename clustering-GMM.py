@@ -75,6 +75,7 @@ from toolbox_02450 import clusterplot
 covar_type = 'full'       # you can try out 'diag' as well
 reps = 3                  # number of fits with different initalizations, best result will be kept
 init_procedure = 'kmeans' # 'kmeans' or 'random'
+colors = ['b','g','r','c','m','y','k','lime']
 gmm = GaussianMixture(n_components=8, covariance_type=covar_type, 
                               n_init=reps, init_params=init_procedure,
                               tol=1e-6, reg_covar=1e-6).fit(X)
@@ -82,7 +83,7 @@ clustering = gmm.predict(X)
 a = clustering.reshape(clustering.shape[0],1)
 plt.figure(1,figsize=(10,7))
 for i in range(8):
-    plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],label="cluster " + str(i))
+    plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],color=colors[i],label="cluster " + str(i))
     
 legend(loc='center left', bbox_to_anchor=(0.97, 0.5)) #cuts of legend if totally out of plot
 plt.title("GMM clustering")
@@ -92,14 +93,14 @@ plt.savefig("GMM-cluster-plot.png")
 plt.tight_layout()
 plt.show()    
     
-colors = ['b','g','r','c','m','y','k','w']
+
 plt.figure(2,figsize=(10,5))
 plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.title("GMM plot with cluster centers")
 for i in range(8):
-    plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],zorder=1)
-    plt.scatter(gmm.means_[i,0],gmm.means_[i,1], s=150, facecolors=colors[i], edgecolors='k',label = "Cluster center "+str(i),zorder=2)
+    plt.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],color=colors[i])
+    plt.scatter(gmm.means_[i,0],gmm.means_[i,1], s=200, facecolors=colors[i], edgecolors='k',label = "Cluster center "+str(i),zorder=2)
     
 for i in range(8):
     pass
@@ -114,9 +115,6 @@ def threedplot():
         #ax.scatter(z0[:,0], z0[:,1], z0[:,2], c='g', label = "chd=0")
         #ax.scatter(z1[:,0], z1[:,1], z1[:,2], c='r', label = "chd=1")
         ax.scatter(Z[clustering == i][:,0],Z[clustering == i][:,1],Z[clustering == i][:,2], label="cluster " + str(i))
-    
-    
-    
     plt.legend()
     plt.xlabel('PCA1')
     plt.ylabel('PCA2')

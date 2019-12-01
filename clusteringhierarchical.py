@@ -1,4 +1,4 @@
-from dataextraction import X, X_standard, attributeNames 
+from dataextraction import X_standard, attributeNames 
 import numpy as np
 import matplotlib.pyplot as plt
 from pcavariance import (N, M, Y, U, S, V)
@@ -86,13 +86,14 @@ plt.ylabel("PC2")
 plt.title("Hierarchical clustering")
 
 # Display dendrogram
-max_display_levels=6
+max_display_levels=4
 plt.figure(2,figsize=(11,4))
 dendrogram(link, truncate_mode='level', p=max_display_levels)
 
 plt.show()
 
-#%% testing all posibilites 
+#%% testing all posibilites
+highscores=[] 
 def testAll():
     Maxclust = 2
     methods = ["single","average","weighted","centroid","median","ward"]
@@ -126,17 +127,20 @@ def testAll():
                         falsepos += 1
                     else:
                         print("something weird", index, item)
-                print("Method:",Method)
+                print("Method:",method)
                 print("truepos:", truepos)
                 print("trueneg:", trueneg)
                 print("falsepos:", falsepos)
                 print("falseneg:", falseneg)
+                percentright = (truepos + trueneg)/len(a) * 100
+                if percentright > 65:
+                    highscores.append((method,metric,percentright))
                 print("Percent right:", (truepos + trueneg)/len(a) * 100)
                 print("\n--------------------------------------------")
             except:
                 pass
 
-# testAll()
+#testAll()
 
 #%% new y is famhist to see if we can improve result
 # X = X_standard
