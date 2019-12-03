@@ -7,7 +7,7 @@ from scipy.linalg import svd
 # 0: sbp, 1: tobacco, 2: ldl, 3: adiposity, 4: famhist, 5: typea
 # 6: obesity, 7: alcohol, 8: age, 9: chd
 
-X = dataextraction.X
+X = dataextraction.X_standard
 N, M = X.shape
 
 Y = X - np.ones((N,1))*X.mean(axis=0)

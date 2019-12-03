@@ -1,7 +1,6 @@
 # association mining 
 
 from dataextraction import X, attributeNames
-from similarity import binarize2
 from apyori import apriori
 import numpy as np
 
